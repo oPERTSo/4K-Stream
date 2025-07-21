@@ -1,0 +1,25 @@
+import cv2
+from realesrgan import RealESRGAN
+
+# เปิด stream จาก URL
+cap = cv2.VideoCapture('http://202.151.178.122/boxfilm/index.m3u8')
+
+# โหลดโมเดล Real-ESRGAN
+model = RealESRGAN('cuda', scale=2)  # ใช้ GPU, ขยาย 2 เท่า
+model.load_weights('weights/RealESRGAN_x2.pth')  # ต้องดาวน์โหลดไฟล์ weights ก่อน
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # ขยายและเพิ่มความคมชัด
+    sr_frame = model.predict(frame)
+
+    # แสดงผล
+    cv2.imshow('Super-Resolution Stream', sr_frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
