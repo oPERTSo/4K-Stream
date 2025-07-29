@@ -6,7 +6,7 @@ import threading
 import queue
 
 # HLS stream URL
-url = "http://10.4.3.222/t2-tsport7/index.m3u8"
+url = "http://202.151.178.122/boxfilm/index.m3u8"
 
 # FFmpeg command to read and scale video to 720p (CPU)
 ffmpeg_cmd = [
@@ -64,6 +64,8 @@ reader_thread.start()
 target_fps = 25
 frame_interval = 1.0 / target_fps
 last_frame_time = time.time()
+
+cv2.namedWindow("Live Stream 720p (Sharpen)", cv2.WINDOW_NORMAL)
 
 while True:
     # ถ้า buffer เหลือน้อยกว่า 3 เฟรม ให้รอเพื่อป้องกันภาพ freeze
